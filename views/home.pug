@@ -1,0 +1,30 @@
+extends default
+
+block content
+  section.hero.is-link.mb-5
+    .hero-body
+      p.title
+        | Bitcoin Exchange Rates
+      p.subtitle
+        | Get BTC-to-Currency exchange rates for popular Crypto and Fiat currencies
+  .container
+    .columns
+      .column.is-12
+        table.table.is-bordered.is-striped.is-hoverable.is-fullwidth
+          thead
+            tr
+              th Position
+              th Currency
+              th
+              th Price
+              th Type
+          tbody
+            - let index = 0
+            each val, key in rates.rates
+              - index++
+              tr
+                th #{index}
+                td #{val.name}
+                td #{key}
+                td #{val.value}
+                td #{val.type}

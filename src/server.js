@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const axios = require('axios');
+const axios = require('axios').default;
 const morgan = require('morgan');
 const NodeCache = require('node-cache');
 const dateFns = require('date-fns');

@@ -6,7 +6,7 @@ block content
       p.title
         | Bitcoin Exchange Rates
       p.subtitle
-        | Get BTC-to-Currency exchange rates for popular Crypto and Fiat currencies
+        | Get BTC-to-Currency exchange rates for popular Crypto and Fiat currencies. Last updated at: <em>#{lastUpdated}</em>.
   .container
     .columns
       .column.is-12
@@ -15,16 +15,16 @@ block content
             tr
               th Position
               th Currency
-              th
+              th Symbol
               th Price
               th Type
           tbody
             - let index = 0
-            each val, key in rates.rates
+            each val, key in data.rates.rates
               - index++
               tr
                 th #{index}
                 td #{val.name}
-                td #{key}
+                td #{key.toUpperCase()}
                 td #{val.value}
                 td #{val.type}

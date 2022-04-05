@@ -3,6 +3,7 @@ const path = require('path');
 const axios = require('axios');
 const morgan = require('morgan');
 const NodeCache = require('node-cache');
+const dateFns = require('date-fns');
 
 const appCache = new NodeCache();
 
@@ -38,12 +39,16 @@ async function getExchangeRates() {
 
 async function refreshExchangeRates() {
   const rates = await getExchangeRates();
-  appCache.set('exchangeRates', rates, 600);
-  console.log('Exchange rates cache updated');
-  return rates;
-}
+  const result = {
+    timestamp: Date.now(),
+    rates,
+  };
 
-refreshExchangeRates();
+  appCache.set('exchangeRates', result, 600);
+
+  console.log('Exchange rates cache updated');
+  return result;
+}
 
 appCache.on('expired', async (key) => {
   try {
@@ -55,38 +60,36 @@ appCache.on('expired', async (key) => {
   }
 });
 
-app.get('/', async (req, res, next) => {
+app.get('/', async (_req, res, next) => {
   try {
-    let rates = appCache.get('exchangeRates');
+    let data = appCache.get('exchangeRates');
 
-    if (rates == null) {
-      rates = await refreshExchangeRates();
+    if (data == null) {
+      data = await refreshExchangeRates();
     }
 
     res.render('home', {
       title: 'Bitcoin Exchange Rates',
-      rates,
+      lastUpdated: dateFns.format(data.timestamp, 'LLL dd, yyyy hh:mm:ss a O'),
+      data,
     });
   } catch (err) {
     next(err);
   }
 });
 
-app.get('/joke', async (req, res, next) => {
-  try {
-    const response = await getRandomJoke();
-    res.json(response);
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.use(function (err, req, res, next) {
+app.use(function (err, _req, res, _next) {
   console.error(err);
   res.set('Content-Type', 'text/html');
   res.status(500).send('<h1>Internal Server Error</h1>');
 });
 
-const server = app.listen(process.env.PORT || 3000, () => {
+const server = app.listen(process.env.PORT || 3000, async () => {
   console.log(`server started on port: ${server.address().port}`);
+
+  try {
+    await refreshExchangeRates();
+  } catch (err) {
+    console.error('Unable to refresh exchange rate due to error: ', err);
+  }
 });

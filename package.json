@@ -1,16 +1,17 @@
 {
-  "name": "dadjoke",
+  "name": "btc-exchange-rates",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "keywords": [],
-  "author": "",
+  "author": "Better Stack Team",
   "scripts": {
     "dev": "nodemon server.js"
   },
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
+    "date-fns": "^2.28.0",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "node-cache": "^5.1.2",

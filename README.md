@@ -4,7 +4,7 @@ Get BTC-to-Currency exchange rates for popular Crypto and Fiat currencies.
 
 **Tutorial**: []().
 
-![Screenshot or GIF of the application in action](screenshot.png).
+![Screenshot or GIF of the application in action](screenshot.png)
 
 ## 🟢 Prerequisites
 

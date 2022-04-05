@@ -6,7 +6,7 @@
   "keywords": [],
   "author": "Better Stack Team",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon src/server.js"
   },
   "license": "ISC",
   "dependencies": {

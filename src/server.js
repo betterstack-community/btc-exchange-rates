@@ -20,9 +20,10 @@ const morganMiddleware = morgan(
 
 app.use(morganMiddleware);
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 async function getExchangeRates() {
   const response = await axios.get(
@@ -78,7 +79,7 @@ app.get('/', async (_req, res, next) => {
   }
 });
 
-app.use(function (err, _req, res, _next) {
+app.use(function(err, _req, res, _next) {
   console.error(err);
   res.set('Content-Type', 'text/html');
   res.status(500).send('<h1>Internal Server Error</h1>');

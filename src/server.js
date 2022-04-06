@@ -61,7 +61,7 @@ appCache.on('expired', async (key) => {
   }
 });
 
-app.get('/', async (_req, res, next) => {
+app.get('/', async (req, res, next) => {
   try {
     let data = appCache.get('exchangeRates');
 
@@ -75,18 +75,15 @@ app.get('/', async (_req, res, next) => {
       data,
     });
   } catch (err) {
-    next(err);
+    console.error(err);
+    res.set('Content-Type', 'text/html');
+    res.status(500).send('<h1>Internal Server Error</h1>');
   }
 });
 
-app.use(function(err, _req, res, _next) {
-  console.error(err);
-  res.set('Content-Type', 'text/html');
-  res.status(500).send('<h1>Internal Server Error</h1>');
-});
-
-const server = app.listen(process.env.PORT || 3000, async () => {
-  console.log(`server started on port: ${server.address().port}`);
+const port = process.env.PORT || 3000;
+const server = app.listen(port, async () => {
+  console.log(`server started on port: ${port}`);
 
   try {
     await refreshExchangeRates();

@@ -3,7 +3,7 @@ const path = require('path');
 const axios = require('axios').default;
 const morgan = require('morgan');
 const NodeCache = require('node-cache');
-const dateFns = require('date-fns');
+const format = require('date-fns/format');
 
 const appCache = new NodeCache();
 
@@ -23,7 +23,7 @@ app.use(morganMiddleware);
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '..', 'views'));
 
 async function getExchangeRates() {
   const response = await axios.get(
@@ -41,8 +41,8 @@ async function getExchangeRates() {
 async function refreshExchangeRates() {
   const rates = await getExchangeRates();
   const result = {
-    timestamp: Date.now(),
-    rates,
+    timestamp: new Date(),
+    exchangeRates: rates,
   };
 
   appCache.set('exchangeRates', result, 600);
@@ -71,7 +71,7 @@ app.get('/', async (req, res, next) => {
 
     res.render('home', {
       title: 'Bitcoin Exchange Rates',
-      lastUpdated: dateFns.format(data.timestamp, 'LLL dd, yyyy hh:mm:ss a O'),
+      lastUpdated: format(data.timestamp, 'LLL dd, yyyy hh:mm:ss a O'),
       data,
     });
   } catch (err) {

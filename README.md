@@ -2,7 +2,7 @@
 
 Get BTC-to-Currency exchange rates for popular Crypto and Fiat currencies.
 
-**Tutorial**: []().
+**Tutorial**: [A Complete Guide to Using TypeScript in Node.js](https://betterstack.com/community/guides/scaling-nodejs/nodejs-typescript).
 
 ![Screenshot or GIF of the application in action](screenshot.png)
 

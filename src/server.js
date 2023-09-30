@@ -1,10 +1,12 @@
-const express = require('express');
-const path = require('path');
-const axios = require('axios').default;
-const morgan = require('morgan');
-const NodeCache = require('node-cache');
-const format = require('date-fns/format');
+import express from 'express';
+import path from 'node:path';
+import axios from 'axios';
+import morgan from 'morgan';
+import NodeCache from 'node-cache';
+import { format } from 'date-fns';
+import * as url from 'node:url';
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const appCache = new NodeCache();
 
 const app = express();

@@ -44,7 +44,7 @@ async function refreshExchangeRates() {
   const rates = await getExchangeRates();
   const result = {
     timestamp: new Date(),
-    exchangeRates: rates,
+    ...rates,
   };
 
   appCache.set('exchangeRates', result, 600);
@@ -70,6 +70,8 @@ app.get('/', async (req, res, next) => {
     if (data == null) {
       data = await refreshExchangeRates();
     }
+
+    console.log(data);
 
     res.render('home', {
       title: 'Bitcoin Exchange Rates',
